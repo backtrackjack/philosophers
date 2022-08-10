@@ -6,7 +6,7 @@
 /*   By: jsellars <jsellars@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:31:06 by jsellars          #+#    #+#             */
-/*   Updated: 2022/08/10 18:37:49 by jsellars         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:13:26 by jsellars         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_philo
 {
 	int				id;	
 	int				times_eaten;	
+	struct s_data	*data;
 }			t_philo;
 
 typedef struct s_data
@@ -38,6 +39,10 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				number_of_times_philo_must_eat; 
 	pthread_mutex_t	*forks;
-	pthread_t		*philosophers;
+	pthread_t		*threads;
+	pthread_mutex_t lock;
 }			t_data;
+
+void	ft_init_philos(t_data *data);
+void	ft_init_data(t_data *data);	
 #endif

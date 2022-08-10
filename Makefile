@@ -6,7 +6,7 @@
 #    By: jsellars <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/22 12:08:44 by jsellars          #+#    #+#              #
-#    Updated: 2022/08/10 17:38:06 by jsellars         ###   ########.fr        #
+#    Updated: 2022/08/10 21:53:16 by jsellars         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 CC = gcc
 FLAGS = -g -Wall -Wextra -Werror
 
-SRC = philo.c
+SRC = philo.c init.c thread.c
 
 all: $(NAME)
 
