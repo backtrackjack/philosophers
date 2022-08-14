@@ -6,7 +6,7 @@
 /*   By: jsellars <jsellars@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 21:46:44 by jsellars          #+#    #+#             */
-/*   Updated: 2022/08/14 22:28:51 by jsellars         ###   ########.fr       */
+/*   Updated: 2022/08/14 23:12:58 by jsellars         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <sys/select.h>
 #include <sys/time.h>
 #include <time.h>
+#include <unistd.h>
 
 static void think(t_philo *p) {
 	pthread_mutex_lock(p->data->lock);	
@@ -60,9 +61,9 @@ static void pick_up(t_philo *p) {
 }
 
 static void eat(t_philo *p) {
-	if (check_death(p))
-	{
-		pthread_mutex_lock(p->data->lock);
+	pthread_mutex_lock(p->data->lock);
+	if (check_death(p)) 
+	{	
 		printf("%lu %d is eating\n", get_timestamp(p->data), p->id);
 		usleep(p->data->time_to_eat * 1000);
 		p->last_meal = get_timestamp(p->data);
@@ -80,22 +81,18 @@ void *philosopher(void *philo) {
 	t_philo *p;
 	int		dead;
 	int		full;
-	int		must_eat;
 	p = (t_philo *)philo;	
 	dead = 0;
 	full = 0;
-	must_eat = p->data->number_of_times_philo_must_eat;
-
-	while (!dead && full < must_eat) {
+	while (1) {
 		think(p);
 		pick_up(p);
 		eat(p);
 		ft_sleep(p);
-		pthread_mutex_lock(p->data->lock);
-		dead = p->data->dead;
 		full = p->data->full;
-		must_eat = p->data->number_of_times_philo_must_eat;
-		pthread_mutex_unlock(p->data->lock);
+		dead = p->data->dead;
+		if (dead || full == p->data->philo_num)
+			break;
 	}
 	return (NULL);
 }
