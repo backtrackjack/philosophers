@@ -6,7 +6,7 @@
 /*   By: jsellars <jsellars@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:31:06 by jsellars          #+#    #+#             */
-/*   Updated: 2022/08/14 20:42:22 by jsellars         ###   ########.fr       */
+/*   Updated: 2022/08/14 21:42:38 by jsellars         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_times_philo_must_eat; 
+	int				dead;
+	int				full;
 	struct timeval	*current_time;
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
@@ -46,4 +48,6 @@ typedef struct s_data
 
 void	ft_init_philos(t_data *data);
 void	ft_init_data(t_data *data);	
+long	get_timestamp(t_data *d);
+int		check_death(t_philo *p);
 #endif
