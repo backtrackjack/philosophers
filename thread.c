@@ -6,52 +6,53 @@
 /*   By: jsellars <jsellars@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 21:46:44 by jsellars          #+#    #+#             */
-/*   Updated: 2022/08/10 21:47:48 by jsellars         ###   ########.fr       */
+/*   Updated: 2022/08/14 18:29:37 by jsellars         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void think(t_philo *philosopher) {
-	int sleepTime = philosopher->data->time_to_sleep;
-	printf("Philosopher %d will think for %d seconds\n", philosopher->id, sleepTime);
+static void think(t_philo *p) {
+	int sleepTime = p->data->time_to_sleep;
+	printf("p %d will think for %d seconds\n", p->id, sleepTime);
 	sleep(sleepTime);
 }
 
-static void pickUp(t_philo *philosopher) {
-	int right = (philosopher->id + 1) % philosopher->data->philo_num;
-	int left = (philosopher->id + philosopher->data->philo_num) % philosopher->data->philo_num;
-	if (philosopher->id & 1) {
-		pthread_mutex_lock(&philosopher->data->forks[right]);
-		printf("Philosopher %d picked up chopstick %d\n", philosopher->id, right);
-		pthread_mutex_lock(&philosopher->data->forks[left]);
-		printf("Philosopher %d picked up chopstick %d\n", philosopher->id, left);
+static void pick_up(t_philo *p) {
+	int right = (p->id + 1) % p->data->philo_num;
+	int left = (p->id + p->data->philo_num) % p->data->philo_num;
+	if (p->id & 1) {
+		pthread_mutex_lock(&p->data->forks[right]);
+		printf("p %d picked up fork %d\n", p->id, right);
+		pthread_mutex_lock(&p->data->forks[left]);
+		printf("p %d picked up fork %d\n", p->id, left);
 	}
 	else {
-		pthread_mutex_lock(&philosopher->data->forks[left]);
-		printf("Philosopher %d picked up chopstick %d\n", philosopher->id, left);
-		pthread_mutex_lock(&philosopher->data->forks[right]);
-		printf("Philosopher %d picked up chopstick %d\n", philosopher->id, right);
+		pthread_mutex_lock(&p->data->forks[left]);
+		printf("p %d picked up fork %d\n", p->id, left);
+		pthread_mutex_lock(&p->data->forks[right]);
+		printf("p %d picked up fork %d\n", p->id, right);
 	}
 }
 
-static void eat(t_philo *philosopher) {
-	int eatTime = philosopher->data->time_to_eat;
-	printf("Philosopher %d will eat for %d seconds\n", philosopher->id, eatTime);
+static void eat(t_philo *p) {
+	int eatTime = p->data->time_to_eat;
+	printf("p %d will eat for %d seconds\n", p->id, eatTime);
 	sleep(eatTime);
 }
 
-static void putDown(t_philo *philosopher) {
-	pthread_mutex_unlock(&philosopher->data->forks[(philosopher->id + 1) % philosopher->data->philo_num]);
-	pthread_mutex_unlock(&philosopher->data->forks[(philosopher->id + philosopher->data->philo_num) % philosopher->data->philo_num]);
+static void put_down(t_philo *p) {
+	pthread_mutex_unlock(&p->data->forks[(p->id + 1) % p->data->philo_num]);
+	pthread_mutex_unlock(&p->data->forks[(p->id + p->data->philo_num)
+			% p->data->philo_num]);
 }
 
-void *philosopher(void *philosopher) {
+void *philosopher(void *p) {
 	while (1) {
-		think((t_philo *)philosopher);
-		pickUp((t_philo *)philosopher);
-		eat((t_philo *)philosopher);
-		putDown((t_philo *)philosopher);
+		think((t_philo *)p);
+		pick_up((t_philo *)p);
+		eat((t_philo *)p);
+		put_down((t_philo *)p);
 	}
 }
 
