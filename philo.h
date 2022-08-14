@@ -6,16 +6,15 @@
 /*   By: jsellars <jsellars@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:31:06 by jsellars          #+#    #+#             */
-/*   Updated: 2022/08/14 18:22:10 by jsellars         ###   ########.fr       */
+/*   Updated: 2022/08/14 20:42:22 by jsellars         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# define NUMBER_OF_PHILOSOPHERS 5
-
 # include <stdio.h>
+#include <sys/_types/_timeval.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
@@ -27,6 +26,7 @@ typedef struct s_philo
 {
 	int				id;	
 	int				times_eaten;	
+	long			last_meal;
 	struct s_data	*data;
 }			t_philo;
 
@@ -38,6 +38,7 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_times_philo_must_eat; 
+	struct timeval	*current_time;
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
 	pthread_mutex_t *lock;

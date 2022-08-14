@@ -6,12 +6,10 @@
 /*   By: jsellars <jsellars@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:15:24 by jsellars          #+#    #+#             */
-/*   Updated: 2022/08/14 18:24:39 by jsellars         ###   ########.fr       */
+/*   Updated: 2022/08/14 19:57:09 by jsellars         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/_pthread/_pthread_mutex_t.h>
-#include <time.h>
 #include "philo.h"
 
 void *philosopher(void *);
